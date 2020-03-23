@@ -51,16 +51,16 @@ namespace pCA3
         static void Main(string[] args) //main method is used to choose ur choice
         {
 
-            string again = ""; //just do while loop, if yes or y repeats if anything else breaks
+             //just do while loop, if yes or y repeats if anything else breaks
             int menuChoice; //choice 'aka' case 1,2,3...
             string name; //name of player you are searching
-
+            string again = "";
             //gets inputs
             GetNumberOfPlayersInEachCathegory(); 
             GetPlayerScores(); 
             GetLocations(); 
-            MakesGraphsCorrespondingToAmountOfPlayersInEachScoreCathegory(); 
-
+            MakesGraphsCorrespondingToAmountOfPlayersInEachScoreCathegory();
+            
             do 
             {
                 menuChoice = Menu();
@@ -82,11 +82,13 @@ namespace pCA3
                         again = Again(again); //when finished asks if to go back to menu
                         break;
 
-                    default: //breaks if '4' is entered
+                    case 4:
+                        again = "no";
                         break;
                 }
+                
             }
-            while (menuChoice != 4 && again == "yes" || again == "y");
+            while (again == "yes" || again == "y");
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -110,7 +112,7 @@ namespace pCA3
                     Console.Write("\nEnter Choice : "); //just output 
                     menuChoice = int.Parse(Console.ReadLine()); //reads input of menu
 
-                    ValidateMenu(menuChoice); //calls method that validates this input
+                    menuChoice = ValidateMenu(menuChoice); //calls method that validates this input
                 }
                 catch (Exception)
                 {
@@ -127,7 +129,7 @@ namespace pCA3
         
         //validated menu input
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static double ValidateMenu(int menuChoice)
+        static int ValidateMenu(int menuChoice)
         {
             if (menuChoice > 4)
                 throw new Exception();
@@ -156,16 +158,16 @@ namespace pCA3
             {
                 fields = lineIn.Split(','); //if there is ',' it splits it parts and puts it into array "fields"
 
-                if (int.Parse(fields[2]) >= 0 && int.Parse(fields[2]) <= 9999)
-                    numberOfPlayers[0] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[0]; //.Subtracting removes the first char and then its parsed
-                else if (int.Parse(fields[2]) >= 10000 && int.Parse(fields[2]) <= 19999)         //yea i know u dont need that >= 10000 but just leave it... whatever  
-                    numberOfPlayers[1] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[1]; 
-                else if (int.Parse(fields[2]) >= 20000 && int.Parse(fields[2]) <= 29999)         //same here ...
-                    numberOfPlayers[2] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[2]; 
-                else if (int.Parse(fields[2]) >= 30000 && int.Parse(fields[2]) <= 39999)         //whatever
-                    numberOfPlayers[3] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[3]; 
+                if (int.Parse(fields[2]) <= 9999)
+                    numberOfPlayers[0] += int.Parse(fields[0].Substring(1)); //.Subtracting removes the first char and then its parsed
+                else if (int.Parse(fields[2]) <= 19999)         //yea i know u dont need that >= 10000 but just leave it... whatever  
+                    numberOfPlayers[1] += int.Parse(fields[0].Substring(1)); 
+                else if (int.Parse(fields[2]) <= 29999)         //same here ...
+                    numberOfPlayers[2] += int.Parse(fields[0].Substring(1)); 
+                else if (int.Parse(fields[2]) <= 39999)         //whatever
+                    numberOfPlayers[3] += int.Parse(fields[0].Substring(1)); 
                 else
-                    numberOfPlayers[4] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[4]; 
+                    numberOfPlayers[4] += int.Parse(fields[0].Substring(1)); 
 
                 lineIn = inputStream.ReadLine(); //goes to next line and reads and repeats process
             }
@@ -299,7 +301,6 @@ namespace pCA3
                     case 5:
                         numberOfPlayersInLocations[4] += int.Parse(fields[0].Substring(1));
                         break;
-
                 }
 
                 lineIn = inputStream.ReadLine(); //goes to next line and reads and repeats process
