@@ -4,7 +4,7 @@
 
  * Student ID: S00197298
  
- * Date: 17-03-2020
+ * Date: 23-03-2020
  
  * Description: CA3, Use CTRL + 'scrol' to navigate around this easier
  
@@ -23,109 +23,109 @@ namespace pCA3
     class CA3
     {
 
-        //
+        //read every coment please...
 
-        //each "input" method will output their results into these 3 arrays and next each array will be displayed with a for loop
+        //each "input" method will output their results into these arrays and next each array will be displayed with a 'for loop'
 
-        static string[] scoresText = new string[5] { "00000-9999", "10000-19999", "20000-29000", "30000-39999", "40000+" };
+        //class level arrays
+        //==================================================================================================================================================================================================================================================================================
+        static string[] scoresText = new string[5] { "00000-9999", "10000-19999", "20000-29000", "30000-39999", "40000+" };//just output
         static string[] locationText = new string[5] { "Europe", "Asia", "America", "South America", "Australia" }; //just output 
 
 
-        static int[] numberOfPlayers = new int[5] { 0, 0, 0, 0, 0 }; //this is where number of players are inputed
-        static string[] playerNames = new string[5];
-        static int[] playerScores = new int[5];
-        static int[] numberOfPlayersInLocations = new int[5] { 0, 0, 0, 0, 0 }; //this is where graph is 
-
-        static string[] graph = new string[5] { "", "", "", "", "" }; //this is where graph is inputed
+        static int[] numberOfPlayers = new int[5]; //this is where number of players in each score cathegory are inputed
+        static int[] playerScores = new int[5]; //this is where the player scored are inputed
+        static int[] numberOfPlayersInLocations = new int[5]; //this is where the number of players in each location are inputed 
 
 
+        static string[] graph = new string[5] { "", "", "", "", "" }; //this is where graph coresponding to the amount of players in each score cathegory is inputed
+
+
+        static string filePath = @"C:\Users\konra\OneDrive - Institute of Technology Sligo\Modules\Year 1\Semester 2\Programming 2 sem2 yr1\pCA3\GameScores.txt"; //this is where the inputs are found //you can just past your path in here if you need to
+        //==================================================================================================================================================================================================================================================================================
 
 
 
+        //gets inputs
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static void Main(string[] args) //main method is used to choose ur choice
         {
 
-            string again = "yes";
-            int menuChoice;
+            string again = ""; //just do while loop, if yes or y repeats if anything else breaks
+            int menuChoice; //choice 'aka' case 1,2,3...
+            string name; //name of player you are searching
 
-            GetNumberOfPlayersInEachCathegory();
-            GetPlayerScores();
-            GetLocations();
-            MakesGraphsCorrespondingToAmountOfPlayersInEachScoreCathegory();
+            //gets inputs
+            GetNumberOfPlayersInEachCathegory(); 
+            GetPlayerScores(); 
+            GetLocations(); 
+            MakesGraphsCorrespondingToAmountOfPlayersInEachScoreCathegory(); 
 
-            do
+            do 
             {
                 menuChoice = Menu();
                 switch (menuChoice)
                 {
                     case 1:
-                        PlayerReportDisplay(); //displays results
-                        again = Again(again);
-                        break;
-                    case 2:
-                        LocationAnalysisReportDisplay(); //displays results
-                        again = Again(again);
-                        break;
-                    case 3:
-                        string name;
-                        name = SearchForAPlayer(InputChoiceThree());
-                        OutputChoiceThree(name);
-                        again = Again(again);
+                        PlayerReportDisplay(); //displays results choise 1
+                        again = Again(again); //when finished asks if to go back to menu
                         break;
 
-                    default: //breaks if something else than above
+                    case 2:
+                        LocationAnalysisReportDisplay(); //displays results choice 2
+                        again = Again(again); //when finished asks if to go back to menu
+                        break;
+
+                    case 3:
+                        name = SearchForAPlayer(InputChoiceThree()); //inputs and processes choice 3
+                        OutputChoiceThree(name); //displays results choice 3
+                        again = Again(again); //when finished asks if to go back to menu
+                        break;
+
+                    default: //breaks if '4' is entered
                         break;
                 }
             }
             while (menuChoice != 4 && again == "yes" || again == "y");
-
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-        //gets choice
+        //gets choice and checks if they are correct format and if they are 1-4
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static int Menu()
         {
-            int menuChoice=0;
+            int menuChoice = 0;
 
             bool isValid;
 
-            //displays menu
-            Console.Write("\n1. Player Report\n2. Location Analasis Report\n3. Search for a player\n4. Exit\n");
+            Console.Write("\n1. Player Report\n2. Location Analasis Report\n3. Search for a player\n4. Exit\n"); //just output
+            //this is done untill correct input is not inputed
             do
             {
                 try
                 {
-
                     isValid = true;
-                    Console.Write("\nEnter Choice : ");
+
+                    Console.Write("\nEnter Choice : "); //just output 
                     menuChoice = int.Parse(Console.ReadLine()); //reads input of menu
-                    
-                    ValidateMenu(menuChoice);
+
+                    ValidateMenu(menuChoice); //calls method that validates this input
                 }
                 catch (Exception)
                 {
-
-                    Console.Write("\nThats not a choice!\n");
-                    
-                    isValid = false;
-
+                    Console.Write("\nThats not a choice!\n"); //just output
+                    isValid = false; 
                 }
-
-
-
-
-
             }
             while (isValid == false);
 
-
             return menuChoice;
-             //returnt choice
-
         }
+        //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+        
+        //validated menu input
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static double ValidateMenu(int menuChoice)
         {
@@ -134,23 +134,19 @@ namespace pCA3
             else
                 return menuChoice;
         }
+        //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
         //GETS INPUT PROM NOTEPAD FIRLD[0]
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static void GetNumberOfPlayersInEachCathegory()
         {
-
-            string[] secoundCharOfNotepadIntoString = new string[5];
-            int[] secoundCharOfNotepadIntoStringIntoInt = new int[5];
-
-            string[] fields = new string[4]; //this is where ',' slit goes in
+            string[] fields = new string[4]; //this is where ',' split goes in
 
             string lineIn; //this is where each line of notepad stuff will be stored 
 
-            int i = 0;
 
-            FileStream fs = new FileStream(@"C:\Users\konra\OneDrive - Institute of Technology Sligo\Modules\Year 1\Semester 2\Programming 2 sem2 yr1\pCA3\GameScores.txt", FileMode.Open, FileAccess.Read); //makes a connection with notepad
+            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read); //makes a connection with notepad
 
             StreamReader inputStream = new StreamReader(fs); //does something //i think it makes the "filestream fs" a type that reads
 
@@ -161,50 +157,34 @@ namespace pCA3
                 fields = lineIn.Split(','); //if there is ',' it splits it parts and puts it into array "fields"
 
                 if (int.Parse(fields[2]) >= 0 && int.Parse(fields[2]) <= 9999)
-                {
-                    numberOfPlayers[0] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[0];  //.Subtracting removes the first char and then its parsed
-                }
-                else if (int.Parse(fields[2]) >= 10000 && int.Parse(fields[2]) <= 19999)
-                {
-                    numberOfPlayers[1] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[1];
-                }
-                else if (int.Parse(fields[2]) >= 20000 && int.Parse(fields[2]) <= 29999)
-                {
-                    numberOfPlayers[2] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[2];
-                }
-                else if (int.Parse(fields[2]) >= 30000 && int.Parse(fields[2]) <= 39999)
-                {
-                    numberOfPlayers[3] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[3];
-                }
+                    numberOfPlayers[0] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[0]; //.Subtracting removes the first char and then its parsed
+                else if (int.Parse(fields[2]) >= 10000 && int.Parse(fields[2]) <= 19999)         //yea i know u dont need that >= 10000 but just leave it... whatever  
+                    numberOfPlayers[1] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[1]; 
+                else if (int.Parse(fields[2]) >= 20000 && int.Parse(fields[2]) <= 29999)         //same here ...
+                    numberOfPlayers[2] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[2]; 
+                else if (int.Parse(fields[2]) >= 30000 && int.Parse(fields[2]) <= 39999)         //whatever
+                    numberOfPlayers[3] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[3]; 
                 else
-                {
-                    numberOfPlayers[4] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[4];
-                }
+                    numberOfPlayers[4] = int.Parse(fields[0].Substring(1)) + numberOfPlayers[4]; 
 
                 lineIn = inputStream.ReadLine(); //goes to next line and reads and repeats process
-                i++;
             }
-
-
-
             inputStream.Close(); //closes the notepad for other programs to use if needed
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-        //GETS INPUT PROM NOTEPAD FIRLDS[1]
+        //searches for name inputed in choice 3 then writes the location coresponding to that name 
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static string SearchForAPlayer(string name)
+        static string SearchForAPlayer(string name)//takes name and looks for a name in notepod thats same
         {
-            const string NO_PLAYER_FOUND = "No player was found";
+            const string NO_PLAYER_FOUND = "No match found"; //returns this is it goes into the else statement below
 
             string[] fields = new string[4]; //this is where ',' slit goes in
 
             string lineIn; //this is where each line of notepad stuff will be stored 
 
-            int i = 0; //this is just for putting each line of notepad to an array to store amount of players with a specific score
-
-            FileStream fs = new FileStream(@"C:\Users\konra\OneDrive - Institute of Technology Sligo\Modules\Year 1\Semester 2\Programming 2 sem2 yr1\pCA3\GameScores.txt", FileMode.Open, FileAccess.Read); //makes a connection with notepad
+            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read); //makes a connection with notepad
 
             StreamReader inputStream = new StreamReader(fs); //does something //i think it makes the "filestream fs" a type that reads
 
@@ -214,41 +194,42 @@ namespace pCA3
             {
                 fields = lineIn.Split(','); //if there is ',' it splits it parts and puts it into array "fields"
 
-                if (name == fields[1])
+                if (name == fields[1]) //takes name and checks if its equal wich fields[1] else it goes to next line and searches there //if it doesnt find it at all it returns the above constant message "no matches found"
                 {
-                    switch (int.Parse(fields[3]))
+                    switch (int.Parse(fields[3])) //when it gets into here that means there is a name == fields[1] so then it returns the location number(code) that is on the same line as the name 
                     {
-                        case 1:
-                            return locationText[0];
+                        case 1: //location code 1
+                            inputStream.Close(); //closes for other programs to use
+                            return locationText[0];  
 
-                        case 2:
+                        case 2: //location code 2
+                            inputStream.Close(); //closes for other programs to use
                             return locationText[1];
 
-                        case 3:
+                        case 3: //...
+                            inputStream.Close();
                             return locationText[2];
 
-                        case 4:
+                        case 4: //...
+                            inputStream.Close();
                             return locationText[3];
 
-                        case 5:
-                            return locationText[0];
-
+                        case 5: //...
+                            inputStream.Close();
+                            return locationText[4];
                     }
                 }
                 else
                 {
                     lineIn = inputStream.ReadLine(); //goes to next line and reads and repeats process
-                    i++;
                 }
 
             }
-
-
             inputStream.Close(); //closes the notepad for other programs to use if needed
+
             return NO_PLAYER_FOUND;
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-
 
 
         //GETS INPUT PROM NOTEPAD FIRLDS[2]
@@ -261,7 +242,7 @@ namespace pCA3
 
             int i = 0; //this is just for putting each line of notepad to an array to store amount of players with a specific score
 
-            FileStream fs = new FileStream(@"C:\Users\konra\OneDrive - Institute of Technology Sligo\Modules\Year 1\Semester 2\Programming 2 sem2 yr1\pCA3\GameScores.txt", FileMode.Open, FileAccess.Read); //makes a connection with notepad
+            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read); //makes a connection with notepad
 
             StreamReader inputStream = new StreamReader(fs); //does something //i think it makes the "filestream fs" a type that reads
 
@@ -274,25 +255,20 @@ namespace pCA3
                 lineIn = inputStream.ReadLine(); //goes to next line and reads and repeats process
                 i++;
             }
-
             inputStream.Close(); //closes the notepad for other programs to use if needed
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
 
         //GETS INPUT PROM NOTEPAD FIRLD[3]
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static void GetLocations()
         {
-            string[] secoundCharOfNotepadIntoString = new string[5];
-            int[] secoundCharOfNotepadIntoStringIntoInt = new int[5];
-
             string[] fields = new string[4]; //this is where ',' slit goes in
 
             string lineIn; //this is where each line of notepad stuff will be stored 
 
-            int i = 0; //this is just for putting each line of notepad to an array to store amount of players with a specific score
-
-            FileStream fs = new FileStream(@"C:\Users\konra\OneDrive - Institute of Technology Sligo\Modules\Year 1\Semester 2\Programming 2 sem2 yr1\pCA3\GameScores.txt", FileMode.Open, FileAccess.Read); //makes a connection with notepad
+            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read); //makes a connection with notepad
 
             StreamReader inputStream = new StreamReader(fs); //does something //i think it makes the "filestream fs" a type that reads
 
@@ -302,49 +278,39 @@ namespace pCA3
             {
                 fields = lineIn.Split(','); //if there is ',' it splits it parts and puts it into array "fields"
 
-
                 switch (int.Parse(fields[3]))
                 {
-
-
                     case 1:
-                        numberOfPlayersInLocations[0] = int.Parse(fields[0].Substring(1)) + numberOfPlayersInLocations[0]; //.Subtracting removes the 1st char and then its parsed 
+                        numberOfPlayersInLocations[0] += int.Parse(fields[0].Substring(1)); //.Subtracting removes the 1st char and then its parsed 
                         break;
 
                     case 2:
-                        numberOfPlayersInLocations[1] = int.Parse(fields[0].Substring(1)) + numberOfPlayersInLocations[1];
+                        numberOfPlayersInLocations[1] += int.Parse(fields[0].Substring(1));  //do i really have to explain...?
                         break;
 
                     case 3:
-                        numberOfPlayersInLocations[2] = int.Parse(fields[0].Substring(1)) + numberOfPlayersInLocations[2];
+                        numberOfPlayersInLocations[2] += int.Parse(fields[0].Substring(1));
                         break;
 
                     case 4:
-                        numberOfPlayersInLocations[3] = int.Parse(fields[0].Substring(1)) + numberOfPlayersInLocations[3];
+                        numberOfPlayersInLocations[3] += int.Parse(fields[0].Substring(1));
                         break;
 
                     case 5:
-                        numberOfPlayersInLocations[4] = int.Parse(fields[0].Substring(1)) + numberOfPlayersInLocations[4];
+                        numberOfPlayersInLocations[4] += int.Parse(fields[0].Substring(1));
                         break;
 
                 }
 
                 lineIn = inputStream.ReadLine(); //goes to next line and reads and repeats process
-                i++;
+           
             }
-
-
             inputStream.Close(); //closes the notepad for other programs to use if needed
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-
-
-
-
-
-        //Makes graphs
+        //makes graphs
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static void MakesGraphsCorrespondingToAmountOfPlayersInEachScoreCathegory()
         {
@@ -365,7 +331,7 @@ namespace pCA3
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-        //total number of players
+        //gets total number of players
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static int GetTotalNumberOfPlayers() //literly everyone knows how this works
         {
@@ -375,36 +341,33 @@ namespace pCA3
             {
                 totalNumberOfPlayers = numberOfPlayers[i] + totalNumberOfPlayers;
             }
+
             return totalNumberOfPlayers;
-
-
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-        //total score
+        //gets total score
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static int GetTotalScore() //dont make me explain this
         {
             int totalScore = 0;
 
-
             for (int i = 0; i < playerScores.Length; i++)
             {
                 totalScore = playerScores[i] + totalScore;
             }
+
             return totalScore;
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-        //average score
+        //gets average score
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static int GetAverageScore() //this is self explanetory 
         {
             int averageScore;
-
-
 
             averageScore = GetTotalScore() / GetTotalNumberOfPlayers();
 
@@ -417,9 +380,11 @@ namespace pCA3
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static void PlayerReportDisplay()  //literly just outputs / display
         {
-            string playerReportTableFormat = "{0,-10}{1,20}{2,30}"; //display format
+            string playerReportTableFormat = "{0,-15}{1,-20}{2,-30}"; //display format
 
-            Console.WriteLine(playerReportTableFormat, "\nScores", "Number of Players", "Graph\n"); //displays headings
+            Console.WriteLine("");
+            Console.WriteLine(playerReportTableFormat, "Scores", "Number of Players", "Graph"); //displays headings
+            Console.WriteLine("");
 
             for (int i = 0; i < scoresText.Length; i++)
             {
@@ -432,19 +397,18 @@ namespace pCA3
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-
-
         //output / display of choice 2
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static void LocationAnalysisReportDisplay() //displayyyyyyyyyyyyyy
         {
-            string playerReportTableFormat = "{0,-10}{1,20}"; //display format
+            string playerReportTableFormat = "{0,-15}{1,-20}"; //display format
 
-            Console.WriteLine(playerReportTableFormat, "\nLocation", "Player Count\n"); //displays headings
+            Console.WriteLine("");
+            Console.WriteLine(playerReportTableFormat, "Location", "Player Count"); //displays headings
+            Console.WriteLine("");
 
             for (int i = 0; i < scoresText.Length; i++)
             {
-
                 Console.WriteLine(playerReportTableFormat, locationText[i], numberOfPlayersInLocations[i]); //displays each array
             }
 
@@ -454,8 +418,7 @@ namespace pCA3
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-
-
+        //gets location with most players
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static string GetLocationWithMostPlayers() //displayyyyyyyyyyyyy
         {
@@ -471,88 +434,44 @@ namespace pCA3
                 }
             }
 
-
-
             return locationWithMostPlayersString;
-
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-
+        //inputs choice 3
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static string InputChoiceThree() //displayyyyyyyyyyyyy
         {
             string name;
+
             Console.Write("\nEnter player name : ");
             name = Console.ReadLine();
-            return name;
 
+            return name;
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-
+        //outputs choice 3
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static void OutputChoiceThree(string name) //displayyyyyyyyyyyyy
         {
-
             Console.WriteLine("\n\n\nLocation          : {0}", name);
-
-
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 
-
+        //asks if you want to go back to the menu
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
         static string Again(string name) //displayyyyyyyyyyyyy
         {
             string again;
+
             Console.Write("\nDo you want to go back to the menu? (yes/no) : ");
             again = Console.ReadLine().ToLower();
 
             return again;
-
-
         }
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
