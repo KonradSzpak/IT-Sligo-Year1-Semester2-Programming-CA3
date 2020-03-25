@@ -48,7 +48,7 @@ namespace pCA3
             {
                 GetNumberOfPlayersInEachCathegory();
                 GetPlayerScoresAndFindTheAverage();
-                GetNumberOfPlayersInEachLocations();
+                GetNumberOfPlayersInEachLocations(); 
                 MakesGraphsCorrespondingToAmountOfPlayersInEachScoreCathegory();
                 do
                 {
@@ -146,11 +146,11 @@ namespace pCA3
 
             string lineIn;
 
-            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read); 
 
-            StreamReader inputStream = new StreamReader(fs);
+            StreamReader inputStream = new StreamReader(fs); 
 
-            lineIn = inputStream.ReadLine();
+            lineIn = inputStream.ReadLine(); 
 
             while (lineIn != null) //while next line is not null goes to next line //null = "THERE IS NOTHING THERE"
             {
@@ -180,9 +180,9 @@ namespace pCA3
         {
             const string NO_PLAYER_FOUND = "No match found"; //returns this is it goes into the else statement below
 
-            string[] fields = new string[4];
+            string[] fields = new string[4]; 
 
-            string lineIn;
+            string lineIn; 
 
             FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read); //makes a connection with notepad
 
@@ -200,23 +200,23 @@ namespace pCA3
                 {
                     switch (int.Parse(fields[3])) //when it gets into here that means there is a name == fields[1] so then it returns the location number(code) that is on the same line as the name 
                     {
-                        case 1:
-                            inputStream.Close();
+                        case 1: 
+                            inputStream.Close(); 
                             return locationText[0];
 
-                        case 2:
-                            inputStream.Close();
+                        case 2: 
+                            inputStream.Close(); 
                             return locationText[1];
 
-                        case 3:
+                        case 3: 
                             inputStream.Close();
                             return locationText[2];
 
-                        case 4:
+                        case 4: 
                             inputStream.Close();
                             return locationText[3];
 
-                        case 5:
+                        case 5: 
                             inputStream.Close();
                             return locationText[4];
                     }
@@ -382,7 +382,7 @@ namespace pCA3
 
 
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static void PlayerReportDisplay()
+        static void PlayerReportDisplay()  
         {
             string playerReportTableFormat = "{0,-15}{1,-20}{2,-30}"; //display format
 
@@ -403,7 +403,7 @@ namespace pCA3
 
 
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static void LocationAnalysisReportDisplay()
+        static void LocationAnalysisReportDisplay() 
         {
             string playerReportTableFormat = "{0,-15}{1,-20}"; //display format
 
@@ -424,7 +424,7 @@ namespace pCA3
 
 
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static string GetLocationWithMostPlayers()
+        static string GetLocationWithMostPlayers() 
         {
             int locationWithMostPlayersInt = 0;
             string locationWithMostPlayersString = "";
@@ -445,7 +445,7 @@ namespace pCA3
 
 
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static string GetPlayerNameAsInput()
+        static string GetPlayerNameAsInput() 
         {
             string name;
 
@@ -459,7 +459,7 @@ namespace pCA3
 
 
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static void OutputLocationToTheCorespondingNameOfThePlayer(string name)
+        static void OutputLocationToTheCorespondingNameOfThePlayer(string name) 
         {
             Console.WriteLine("\n\n\nLocation          : {0}", name);
         }
@@ -468,7 +468,7 @@ namespace pCA3
 
 
         //_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-        static bool AskToTryAgainIfPlayerNameInvalid(bool isValid)
+        static bool AskToTryAgainIfPlayerNameInvalid(bool isValid) 
         {
             if (isValid == false)
             {
